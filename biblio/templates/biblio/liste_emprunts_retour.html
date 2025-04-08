@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livres à retourner</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        li a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        p {
+            margin-top: 15px;
+            color: #555;
+        }
+        .no-returns {
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Livres à retourner</h1>
+
+    {% if emprunts %}
+        <ul>
+            {% for emprunt in emprunts %}
+                <li>
+                    <span>
+                        "{{ emprunt.livre.titre }}" emprunté par {{ emprunt.utilisateur.username }} le {{ emprunt.date_emprunt|date:"d/m/Y" }} (Retour prévu le {{ emprunt.date_retour_prevue|date:"d/m/Y" }})
+                    </span>
+                    <a href="{% url 'retourner_livre' emprunt.id %}">Marquer comme retourné</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-returns">Aucun livre à retourner pour le moment.</p>
+    {% endif %}
+
+    <p><a href="{% url 'accueil' %}">Retour à l'accueil</a></p>
+
+    <script>
+        console.log("Page des livres à retourner chargée!");
+        // Vous pouvez ajouter ici du JavaScript spécifique à cette page si nécessaire.
+    </script>
+</body>
+</html>

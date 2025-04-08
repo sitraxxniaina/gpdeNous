@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Utilisateur</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li strong {
+            font-weight: bold;
+        }
+        .no-borrowed {
+            font-style: italic;
+            color: #777;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur votre profil, {{ user.username }} !</h1>
+
+    {% if user.first_name or user.last_name %}
+        <p><strong>Nom :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    {% endif %}
+
+    {% if user.email %}
+        <p><strong>Adresse e-mail :</strong> {{ user.email }}</p>
+    {% else %}
+        <p><strong>Adresse e-mail :</strong> Non renseignée</p>
+    {% endif %}
+
+    <h2>Livres Empruntés</h2>
+
+    {% if emprunts %}
+        <ul>
+            {% for emprunt in emprunts %}
+                <li>
+                    <strong>Titre :</strong> {{ emprunt.livre.titre }}<br>
+                    <strong>Emprunté le :</strong> {{ emprunt.date_emprunt|date:"d/m/Y" }}<br>
+                    <strong>Date de retour prévue :</strong> {{ emprunt.date_retour_prevue|date:"d/m/Y" }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-borrowed">Vous n'avez emprunté aucun livre pour le moment.</p>
+    {% endif %}
+
+    <p><a href="{% url 'historique_emprunts' %}">Voir l'historique de mes emprunts</a></p>
+    <p><a href="{% url 'accueil' %}">Retour à l'accueil</a></p>
+
+    <script>
+        console.log("Page de profil utilisateur chargée!");
+        // Vous pouvez ajouter ici du JavaScript spécifique à cette page si nécessaire.
+    </script>
+</body>
+</html>

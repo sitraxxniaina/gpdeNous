@@ -1,0 +1,8 @@
+Bonjour {{ reservation.utilisateur.username }},
+
+Le livre que vous avez réservé, "{{ reservation.livre.titre }}", est maintenant disponible pour l'emprunt.
+
+Veuillez vous rendre à la bibliothèque dans les plus brefs délais pour l'emprunter.
+
+Merci,
+L'équipe de la bibliothèque

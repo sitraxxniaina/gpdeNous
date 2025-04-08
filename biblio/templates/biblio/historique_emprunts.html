@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique de mes emprunts</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li strong {
+            font-weight: bold;
+        }
+        p {
+            margin-top: 15px;
+            color: #555;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .no-history {
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historique de mes emprunts</h1>
+
+    {% if emprunts_passes %}
+        <ul>
+            {% for emprunt in emprunts_passes %}
+                <li>
+                    <strong>Titre :</strong> {{ emprunt.livre.titre }}<br>
+                    <strong>Emprunté le :</strong> {{ emprunt.date_emprunt|date:"d/m/Y" }}<br>
+                    <strong>Retourné le :</strong> {{ emprunt.date_retour_effective|date:"d/m/Y" }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-history">Vous n'avez aucun livre dans votre historique d'emprunts.</p>
+    {% endif %}
+
+    <p><a href="{% url 'profil_utilisateur' %}">Retour à mon profil</a></p>
+
+    <script>
+        console.log("Page d'historique des emprunts chargée!");
+        // Vous pouvez ajouter ici du JavaScript spécifique à cette page si nécessaire.
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de la Recherche</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li form {
+            display: inline;
+            margin-left: 10px;
+        }
+        li button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        li button:hover {
+            background-color: #0056b3;
+        }
+        li small {
+            color: gray;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        p {
+            margin-top: 15px;
+            color: #555;
+        }
+        .no-results {
+            font-style: italic;
+            color: #777;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Résultats de la Recherche</h1>
+
+    {% if query %}
+        <h2>Vous avez recherché : "{{ query }}"</h2>
+    {% endif %}
+
+    {% if results %}
+        <ul>
+            {% for livre in results %}
+                <li>
+                    <span>{{ livre.titre }} - {{ livre.auteur }} (ISBN: {{ livre.isbn }})</span>
+                    <div>
+                        {% if request.user.is_authenticated %}
+                            <form method="post" action="{% url 'reserver_livre' livre.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Réserver</button>
+                            </form>
+                        {% else %}
+                            <small>(Connectez-vous pour réserver)</small>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if query %}
+            <p class="no-results">Aucun livre ne correspond à votre recherche.</p>
+        {% else %}
+            <p>Veuillez entrer un terme de recherche.</p>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="{% url 'accueil' %}">Retour à l'accueil</a></p>
+
+    <script>
+        console.log("Page des résultats de recherche chargée!");
+        // Vous pouvez ajouter ici du JavaScript spécifique à cette page si nécessaire.
+    </script>
+</body>
+</html>

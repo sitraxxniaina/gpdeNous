@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Le livre que vous avez réservé est disponible !</title>
+</head>
+<body>
+    <p>Bonjour {{ reservation.utilisateur.username }},</p>
+    <p>Le livre que vous avez réservé, <strong>{{ reservation.livre.titre }}</strong>, est maintenant disponible pour l'emprunt.</p>
+    <p>Veuillez vous rendre à la bibliothèque dans les plus brefs délais pour l'emprunter.</p>
+    <p>Merci,</p>
+    <p>L'équipe de la bibliothèque</p>
+</body>
+</html>

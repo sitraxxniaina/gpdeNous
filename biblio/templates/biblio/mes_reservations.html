@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Réservations</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        li {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li span {
+            font-weight: bold;
+        }
+        .available {
+            color: green;
+        }
+        .waiting {
+            color: orange;
+        }
+        li form {
+            display: inline;
+            margin-left: 10px;
+        }
+        li button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        li button[type="submit"]:first-of-type {
+            background-color: #28a745;
+            color: white;
+        }
+        li button[type="submit"]:first-of-type:hover {
+            background-color: #1e7e34;
+        }
+        li button[type="submit"]:last-of-type {
+            background: none;
+            border: none;
+            color: red;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        p {
+            margin-top: 15px;
+            color: #555;
+        }
+        .no-reservations {
+            font-style: italic;
+            color: #777;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mes Réservations</h1>
+
+    {% if reservations %}
+        <ul>
+            {% for reservation in reservations %}
+                <li>
+                    <span>Livre : {{ reservation.livre.titre }}</span>
+                    <span>Réservé le : {{ reservation.date_reservation|date:"d/m/Y H:i" }}</span>
+                    {% if reservation.est_disponible %}
+                        <span class="available">Disponible pour l'emprunt</span>
+                        <form method="post" action="{% url 'emprunter_livre_reserve' reservation.livre.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit">Emprunter maintenant</button>
+                        </form>
+                        <form method="post" action="{% url 'annuler_reservation' reservation_id=reservation.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit">Annuler la réservation</button>
+                        </form>
+                    {% else %}
+                        <span class="waiting">En file d'attente</span>
+                        <form method="post" action="{% url 'annuler_reservation' reservation_id=reservation.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit">Annuler la réservation</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-reservations">Vous n'avez aucune réservation pour le moment.</p>
+    {% endif %}
+
+    <p><a href="{% url 'accueil' %}">Retour à l'accueil</a></p>
+
+    <script>
+        console.log("Page de mes réservations chargée!");
+        // Vous pouvez ajouter ici du JavaScript spécifique à cette page si nécessaire.
+    </script>
+</body>
+</html>

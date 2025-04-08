@@ -1,0 +1,127 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+h1, h2 {
+  color: #007bff;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 15px;
+  text-decoration: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.button.secondary {
+  background-color: #6c757d;
+}
+
+.button.small {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+nav {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+nav a:hover {
+  background-color: #555;
+}
+
+nav span {
+  margin-left: 20px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+}
+
+form p {
+  margin-bottom: 10px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="number"],
+form input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button[type="submit"]:hover {
+  background-color: #218838;
+}

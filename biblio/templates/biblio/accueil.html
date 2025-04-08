@@ -1,0 +1,162 @@
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .messages li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #85640a;
+            border: 1px solid #ffeeba;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        form[action="{% url 'logout' %}"] {
+            display: inline;
+        }
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li form {
+            display: inline;
+            margin-left: 10px;
+        }
+        li button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .disabled-text {
+            color: gray;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p class="user-info">
+            Bonjour, {{ user.username }} !
+            <a href="{% url 'mes_reservations' %}">Mes Réservations</a> |
+            <a href="{% url 'historique_emprunts' %}">Historique des Emprunts</a> |
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">Se déconnecter</button>
+            </form>
+        </p>
+    {% else %}
+        <p class="auth-links">
+            <a href="{% url 'login' %}">Se connecter</a> | <a href="{% url 'register' %}">S'inscrire</a>
+        </p>
+    {% endif %}
+
+    <h1>Bienvenue sur mon site web !</h1>
+
+    <form method="get" action="{% url 'rechercher_livres' %}" class="search-form">
+        <input type="text" name="q" placeholder="Rechercher des livres...">
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if livres %}
+        <h2>Liste des livres disponibles :</h2>
+        <ul class="book-list">
+            {% for livre in livres %}
+                <li>
+                    {{ livre.titre }} - {{ livre.auteur }} (ISBN: {{ livre.isbn }})
+                    <form method="post" action="{% url 'reserver_livre' livre.id %}">
+                        {% csrf_token %}
+                        <button type="submit"{% if not user.is_authenticated %} disabled{% endif %} class="reserve-button">Réserver</button>
+                        {% if not user.is_authenticated %}
+                            <small class="disabled-text">(Vous devez être connecté pour réserver)</small>
+                        {% endif %}
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-books">Aucun livre disponible pour le moment.</p>
+    {% endif %}
+
+    <script>
+        // Optionnel: Ajouter du JavaScript pour des interactions plus dynamiques
+        console.log("Page chargée!");
+        // Vous pouvez ajouter ici des scripts pour manipuler le DOM, faire des appels AJAX, etc.
+    </script>
+</body>
+</html>
